@@ -112,19 +112,15 @@ app.listen(PORT, () => console.log('Example app listening on port 5000!'));
 
 
 function sendReminder() {
+    let data = {
+      text: '*Time to drink some water!'
+    };
     const options = {
         headers: {
             'Content-Type': 'application/json'
         },
 
-        body: JSON.stringify({
-            "text": "I am a test message http://slack.com",
-            "attachments": [
-                {
-                    "text": "And here’s an attachment!"
-                }
-            ]
-        })
+        body: JSON.stringify(data)
     };
 
     request.post('https://hooks.slack.com/services/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', options).on('error', function(e) {

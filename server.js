@@ -8,6 +8,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+let interval;
 
 
 app.all('/', function(req, res, next) {
@@ -19,19 +20,68 @@ app.all('/', function(req, res, next) {
 // TODO:HONG use slack awesome feature to style the message
 // TODO:HONG also include a list of command that we have
 app.post('/intro', (req, res) => {
-    res.send('Hello Hong. Healthify will remind you when you should drink water!');
+    res.send('*Hello Hong. Healthify will remind you when you should drink water!' +
+        '\n type /healthify to start the reminder loop' +
+        '\n*type /fulltank to stop the reminder' +
+        '\n*type /intro to repeat the commands');
 } );
+
+app.post('/healthify', (req, res) => {
+    if ( interval ) {
+        clearInterval(interval);
+    }
+    interval = setInterval(sendReminder, 5000);
+    res.send('*Healthify begins.....');
+} );
+
 app.post('/fulltank', (req, res) => {
     if ( interval ) {
         clearInterval(interval);
     }
     res.send('Hope you are hydrated :)');
 } );
-
-app.post('/water', (req, res) => {
-    res.send('Drink some water!!');
-    // console.log(req.headers['content-type'])
-} );
+app.post('/test', (req, res) => {
+   let data = {
+       "text": "Would you like to play a game?",
+       "attachments": [
+           {
+               "text": "Choose a game to play",
+               "fallback": "You are unable to choose a game",
+               "callback_id": "wopr_game",
+               "color": "#3AA3E3",
+               "attachment_type": "default",
+               "actions": [
+                   {
+                       "name": "game",
+                       "text": "Chess",
+                       "type": "button",
+                       "value": "chess"
+                   },
+                   {
+                       "name": "game",
+                       "text": "Falken's Maze",
+                       "type": "button",
+                       "value": "maze"
+                   },
+                   {
+                       "name": "game",
+                       "text": "Thermonuclear War",
+                       "style": "danger",
+                       "type": "button",
+                       "value": "war",
+                       "confirm": {
+                           "title": "Are you sure?",
+                           "text": "Wouldn't you prefer a good game of chess?",
+                           "ok_text": "Yes",
+                           "dismiss_text": "No"
+                       }
+                   }
+               ]
+           }
+       ]
+   };
+   res.send(JSON.stringify(data));
+});
 
 
 
@@ -42,8 +92,6 @@ app.listen(PORT, () => console.log('Example app listening on port 5000!'));
 
 /** Send data from server to slack anytime we want without any request from slack.
  * We can use this to periodically notify user **/
-const oneHour = 3600000;
-const interval = setInterval(sendReminder, 5000);
 
 
 function sendReminder() {

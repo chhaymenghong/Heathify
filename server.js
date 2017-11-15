@@ -12,6 +12,7 @@ let interval;
 
 
 app.all('/', function(req, res, next) {
+    res.header("Content-Type", "application/json");
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
@@ -20,18 +21,20 @@ app.all('/', function(req, res, next) {
 // TODO:HONG use slack awesome feature to style the message
 // TODO:HONG also include a list of command that we have
 app.post('/intro', (req, res) => {
-    res.send('*Hello Hong. Healthify will remind you when you should drink water!' +
+    res.header("Content-Type", "application/json");
+    res.send('Hello Hong. Healthify will remind you when you should drink water!' +
         '\n type /healthify to start the reminder loop' +
-        '\n*type /fulltank to stop the reminder' +
-        '\n*type /intro to repeat the commands');
+        '\n type /fulltank to stop the reminder' +
+        '\n type /intro to repeat the commands');
 } );
 
 app.post('/healthify', (req, res) => {
+    res.header("Content-Type", "application/json");
     if ( interval ) {
         clearInterval(interval);
     }
     interval = setInterval(sendReminder, 5000);
-    res.send('*Healthify begins.....');
+    res.send('Healthify begins.....');
 } );
 
 app.post('/fulltank', (req, res) => {
@@ -41,9 +44,10 @@ app.post('/fulltank', (req, res) => {
     res.send('Hope you are hydrated :)');
 } );
 app.post('/test', (req, res) => {
-   let data = {
-       "text": "Would you like to play a game?",
-       "attachments": [
+    res.header("Content-Type", "application/json");
+    let data = {
+        "text": "Would you like to play a game?",
+        "attachments": [
            {
                "text": "Choose a game to play",
                "fallback": "You are unable to choose a game",
@@ -79,8 +83,12 @@ app.post('/test', (req, res) => {
                ]
            }
        ]
-   };
-   res.send(JSON.stringify(data));
+    };
+    res.send(JSON.stringify(data));
+});
+
+app.post('frequency', (req, res) => {
+   console.log(req.body);
 });
 
 

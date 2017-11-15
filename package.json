@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./server.js"
+    "start": "node ./server.js",
+    "client": "webpack --progress --colors --watch",
+    "clientServer": "webpack-dev-server --progress --colors"
   },
   "engines": {
     "node": "8.4.0",
@@ -21,6 +23,9 @@
   },
   "homepage": "https://github.com/chhaymenghong/Heathify#readme",
   "dependencies": {
-    "express": "^4.16.2"
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "jquery": "^3.2.1",
+    "request": "^2.83.0"
   }
 }

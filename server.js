@@ -12,7 +12,6 @@ let interval;
 
 
 app.all('/', function(req, res, next) {
-    res.header("Content-Type", "application/json");
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
@@ -23,9 +22,9 @@ app.all('/', function(req, res, next) {
 app.post('/intro', (req, res) => {
     res.header("Content-Type", "application/json");
     let data = {
-        text: '*Hello Hong. Healthify will remind you when you should drink water!' +
+        "text": '*Hello Hong. Healthify will remind you when you should drink water!*' +
         '\n type /healthify to start the reminder loop' +
-            '\n type /fulltank to stop the reminder' +
+        '\n type /fulltank to stop the reminder' +
         '\n type /intro to repeat the commands'
     };
     res.send(JSON.stringify(data));
@@ -33,7 +32,7 @@ app.post('/intro', (req, res) => {
 
 app.post('/healthify', (req, res) => {
     let data = {
-        text: '_Healthify begins.....'
+        "text": '_Healthify begins_.....'
     };
     res.header("Content-Type", "application/json");
     if ( interval ) {
@@ -44,8 +43,9 @@ app.post('/healthify', (req, res) => {
 } );
 
 app.post('/fulltank', (req, res) => {
+    res.header("Content-Type", "application/json");
     let data = {
-        text: '*Hope you are hydrated'
+        "text": '*Hope you are hydrated!*'
     };
     if ( interval ) {
         clearInterval(interval);
@@ -55,7 +55,7 @@ app.post('/fulltank', (req, res) => {
 app.post('/test', (req, res) => {
     res.header("Content-Type", "application/json");
     let data = {
-        "text": "Would you like to play a game?",
+        // "text": "**",
         "attachments": [
            {
                "text": "Choose a reminder frequency",
@@ -113,7 +113,7 @@ app.listen(PORT, () => console.log('Example app listening on port 5000!'));
 
 function sendReminder() {
     let data = {
-      text: '*Time to drink some water!'
+      "text": '*Time to drink some water!'
     };
     const options = {
         headers: {
@@ -130,13 +130,6 @@ function sendReminder() {
     });
 }
 
-// TODO:HONG for now let have the following feature
-    // 1. add a couple of command:
-        // "/intro" give description of what the app is: also show what kind of command we have
-        // "/waterify when user press this command, give them frequency options.
-        // once you click sth, send that response to the server and start the interval
-        // "/stop" stop the interval
-
-
 
 // TODO:HONG need to figure out how to pass Slack's specific workspace url so that we can use this app on all sort of workspace
+// TODO:HONG get user name and other information

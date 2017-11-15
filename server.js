@@ -104,16 +104,16 @@ app.post('/frequency', (req, res) => {
     let data = {
       "text": '*Setting reminder\'s frequency to ' + req.actions[0].name + ' *'
     };
-    let requestedFreq = req.actions[0].value;
-   if ( requestedFreq == 1) {
-       changeFrequency(1000);
-   }
-   if ( requestedFreq == 2) {
-       changeFrequency(5000);
-   }
-   if ( requestedFreq == 3) {
-       changeFrequency(10000);
-   }
+    // let requestedFreq = req.actions[0].value;
+   // if ( requestedFreq === '1') {
+   //     changeFrequency(1000);
+   // }
+   // if ( requestedFreq == 2) {
+   //     changeFrequency(5000);
+   // }
+   // if ( requestedFreq == 3) {
+   //     changeFrequency(10000);
+   // }
    res.send(JSON.stringify(data));
 
 });

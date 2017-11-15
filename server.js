@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 let interval;
+let frequency;
 
 
 app.all('/', function(req, res, next) {
@@ -23,8 +24,9 @@ app.post('/intro', (req, res) => {
     res.header("Content-Type", "application/json");
     let data = {
         "text": '*Hello Hong. Healthify will remind you when you should drink water!*' +
-        '\n type /healthify to start the reminder loop' +
+        '\n type /healthify to start the reminder at 1 hour frequency' +
         '\n type /fulltank to stop the reminder' +
+        '\n type /frequency to change the reminder frequency' +
         '\n type /intro to repeat the commands'
     };
     res.send(JSON.stringify(data));
@@ -32,13 +34,14 @@ app.post('/intro', (req, res) => {
 
 app.post('/healthify', (req, res) => {
     let data = {
-        "text": '_Healthify begins_.....'
+        "text": '*_Healthify begins_.....*'
     };
     res.header("Content-Type", "application/json");
     if ( interval ) {
         clearInterval(interval);
     }
-    interval = setInterval(sendReminder, 5000);
+
+    setupReminder();
     res.send(JSON.stringify(data));
 } );
 
@@ -97,7 +100,12 @@ app.post('/test', (req, res) => {
 });
 
 app.post('frequency', (req, res) => {
+    let data = {
+      "text": '*Setting reminder\'s frequency to ' + req.body + ' *'
+    };
    console.log(req.body);
+   res.send(JSON.stringify(data));
+   changeFrequency(10000);
 });
 
 
@@ -110,10 +118,21 @@ app.listen(PORT, () => console.log('Example app listening on port 5000!'));
 /** Send data from server to slack anytime we want without any request from slack.
  * We can use this to periodically notify user **/
 
+function changeFrequency(_frequency) {
+    if ( interval ) {
+        clearInterval(interval);
+    }
+    frequency = _frequency;
+    setupReminder();
+}
+
+function setupReminder() {
+    interval = setInterval(sendReminder, frequency || 5000);
+}
 
 function sendReminder() {
     let data = {
-      "text": '*Time to drink some water!'
+      "text": '*Time to drink some water!*'
     };
     const options = {
         headers: {

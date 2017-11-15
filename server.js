@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => res.send('Welcome to Healthify'));
-app.post('/water', (req, res) => res.send('Drink some water!!') );
+app.post('/water', (req, res) => {
+    setInterval(() => res.send('Drink some water!!'), 5000 );
+} );
 
 // since we are using Heroku to host this server, we need to accept the port number given by Heroku
 const PORT = process.env.PORT || 5000;

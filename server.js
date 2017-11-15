@@ -100,12 +100,22 @@ app.post('/test', (req, res) => {
 });
 
 app.post('/frequency', (req, res) => {
+    res.header("Content-Type", "application/json");
     let data = {
-      "text": '*Setting reminder\'s frequency to ' + req.body + ' *'
+      "text": '*Setting reminder\'s frequency to ' + req.actions[0].name + ' *'
     };
-   console.log(req.body);
+    let requestedFreq = req.actions[0].value;
+   if ( requestedFreq == 1) {
+       changeFrequency(1000);
+   }
+   if ( requestedFreq == 2) {
+       changeFrequency(5000);
+   }
+   if ( requestedFreq == 3) {
+       changeFrequency(10000);
+   }
    res.send(JSON.stringify(data));
-   changeFrequency(10000);
+
 });
 
 

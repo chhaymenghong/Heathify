@@ -1,0 +1,26 @@
+{
+  "name": "heathify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./server.js"
+  },
+  "engines": {
+    "node": "8.4.0",
+    "npm": "5.4.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chhaymenghong/Heathify.git"
+  },
+  "author": "Menghong Chhay",
+  "license": "MIT License",
+  "bugs": {
+    "url": "https://github.com/chhaymenghong/Heathify/issues"
+  },
+  "homepage": "https://github.com/chhaymenghong/Heathify#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}

@@ -22,26 +22,35 @@ app.all('/', function(req, res, next) {
 // TODO:HONG also include a list of command that we have
 app.post('/intro', (req, res) => {
     res.header("Content-Type", "application/json");
-    res.send('Hello Hong. Healthify will remind you when you should drink water!' +
+    let data = {
+        text: '*Hello Hong. Healthify will remind you when you should drink water!' +
         '\n type /healthify to start the reminder loop' +
-        '\n type /fulltank to stop the reminder' +
-        '\n type /intro to repeat the commands');
+            '\n type /fulltank to stop the reminder' +
+        '\n type /intro to repeat the commands'
+    };
+    res.send(JSON.stringify(data));
 } );
 
 app.post('/healthify', (req, res) => {
+    let data = {
+        text: '_Healthify begins.....'
+    };
     res.header("Content-Type", "application/json");
     if ( interval ) {
         clearInterval(interval);
     }
     interval = setInterval(sendReminder, 5000);
-    res.send('Healthify begins.....');
+    res.send(JSON.stringify(data));
 } );
 
 app.post('/fulltank', (req, res) => {
+    let data = {
+        text: '*Hope you are hydrated'
+    };
     if ( interval ) {
         clearInterval(interval);
     }
-    res.send('Hope you are hydrated :)');
+    res.send(JSON.stringify(data));
 } );
 app.post('/test', (req, res) => {
     res.header("Content-Type", "application/json");
@@ -49,33 +58,33 @@ app.post('/test', (req, res) => {
         "text": "Would you like to play a game?",
         "attachments": [
            {
-               "text": "Choose a game to play",
-               "fallback": "You are unable to choose a game",
-               "callback_id": "wopr_game",
+               "text": "Choose a reminder frequency",
+               "fallback": "You are unable to choose a reminder frequency",
+               "callback_id": "Healthify",
                "color": "#3AA3E3",
                "attachment_type": "default",
                "actions": [
                    {
-                       "name": "game",
-                       "text": "Chess",
+                       "name": "frequency",
+                       "text": "1 hour",
                        "type": "button",
-                       "value": "chess"
+                       "value": "1"
                    },
                    {
-                       "name": "game",
-                       "text": "Falken's Maze",
+                       "name": "frequency",
+                       "text": "2 hour",
                        "type": "button",
-                       "value": "maze"
+                       "value": "2"
                    },
                    {
-                       "name": "game",
-                       "text": "Thermonuclear War",
+                       "name": "frequency",
+                       "text": "3 hours",
                        "style": "danger",
                        "type": "button",
-                       "value": "war",
+                       "value": "3",
                        "confirm": {
                            "title": "Are you sure?",
-                           "text": "Wouldn't you prefer a good game of chess?",
+                           "text": "Doctors would recommend everyone to drink water more often than this.",
                            "ok_text": "Yes",
                            "dismiss_text": "No"
                        }
@@ -104,7 +113,6 @@ app.listen(PORT, () => console.log('Example app listening on port 5000!'));
 
 function sendReminder() {
     const options = {
-        url: 'http://localhost:5000/water',
         headers: {
             'Content-Type': 'application/json'
         },

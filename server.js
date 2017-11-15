@@ -48,7 +48,7 @@ app.post('/healthify', (req, res) => {
 app.post('/fulltank', (req, res) => {
     res.header("Content-Type", "application/json");
     let data = {
-        "text": '*Hope you are hydrated!*'
+        "text": '*_Hope you are hydrated!_*'
     };
     if ( interval ) {
         clearInterval(interval);
@@ -99,7 +99,7 @@ app.post('/test', (req, res) => {
     res.send(JSON.stringify(data));
 });
 
-app.post('frequency', (req, res) => {
+app.post('/frequency', (req, res) => {
     let data = {
       "text": '*Setting reminder\'s frequency to ' + req.body + ' *'
     };

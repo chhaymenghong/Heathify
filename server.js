@@ -25,6 +25,7 @@ app.post('/fulltank', (req, res) => {
     if ( interval ) {
         clearInterval(interval);
     }
+    res.send('Hope you are hydrated :)');
 } );
 
 app.post('/water', (req, res) => {
